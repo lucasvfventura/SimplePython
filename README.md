@@ -7,8 +7,8 @@ Feel free to contact me at @lucasvfv.
 ## This application consists of:
 *   [Scrapy](https://scrapy.org/): web cralwer framework
 *   [Flask](http://flask.pocoo.org/): back-end web framework
-*   [JQuery](https://jquery.com/) + [D3JS](https://d3js.org/): front-end libraries to display the data
-*	[Jupyter](http://jupyter.org/) + [Pandas]( pandas.pydata.org): for data analysis
+*   [JQuery](https://jquery.com/) + [NVD3](http://nvd3.org/): front-end libraries to display the data
+*	[Jupyter Notrebooks](http://jupyter.org/) + [Pandas]( pandas.pydata.org): for data analysis
 
 ## Requiriments
 *   [Python 3 Anaconda dist](https://www.continuum.io/)

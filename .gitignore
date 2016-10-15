@@ -1,3 +1,8 @@
+webot/data.csv
+webot/data.json
+.idea
+*.log
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

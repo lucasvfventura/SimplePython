@@ -1,19 +1,23 @@
 import scrapy
 
+
 class AmazonSpider(scrapy.Spider):
     name = "amazon-notebook"
 
     def start_requests(self):
-        search_url2 = 'https://www.amazon.ca/notebook/s?ie=UTF8&page=1&rh=i%3Aaps%2Ck%3Anotebook'
+        """
+        Setup initial url request
+        """
         search_term = getattr(self, 'search', None)
         if search_term is not None:
-            search_url = 'https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={0}&rh=i%3Aaps%2Ck%3A{0}'.format(search_term)
-            yield scrapy.Request(search_url2, self.parse)
+            search_url = 'https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={0}&rh=i%3Aaps%2Ck%3A{0}'.format(
+                search_term)
+            yield scrapy.Request(search_url, self.parse)
         else:
             print("Please specify the search term with the parameter search, i.e, -a search=search_term")
             return
 
-    def parse(self, response):
+    def parse(self, response: scrapy.http.TextResponse):
         """
         Parse the search page. Looks for item specific page and the next page in the search results
         """
@@ -21,7 +25,8 @@ class AmazonSpider(scrapy.Spider):
             yield scrapy.Request(response.headers['location'], callback=self.parse)
             return
 
-        for item in response.xpath('//div[@id="resultsCol"]//li//div[@class="a-row a-spacing-small"]//a/@href').extract():
+        for item in response.xpath(
+                '//div[@id="resultsCol"]//li//div[@class="a-row a-spacing-small"]//a/@href').extract():
             item_url = response.urljoin(item)
             yield scrapy.Request(item_url, callback=self.parse_item)
 
@@ -34,13 +39,22 @@ class AmazonSpider(scrapy.Spider):
         """
         Parse the page descring the item
         """
+
         def get_data(xpath):
             """
             Return the strip text of the given xpath
             """
-            return response.xpath(xpath).extract_first().strip()
+            element = response.xpath(xpath).extract_first()
+            if element is not None:
+                return element.strip()
+            else:
+                return None
 
-        price_text = get_data('//span[@id="priceblock_ourprice"]/text()').split(' ')
+        price_text = get_data('//span[@id="priceblock_ourprice"]/text()')
+        if price_text is None:
+            price_text = get_data('//div[@id="olp_feature_div"]//span[@class="a-color-price"]/text()')
+
+        price_text = price_text.split(' ')
 
         yield {
             'product': get_data('//h1[@id="title"]/span/text()'),

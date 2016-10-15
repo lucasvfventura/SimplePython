@@ -1,0 +1,10 @@
+{
+  "generator-schlesinger": {
+    "appName": "simpleweb",
+    "database": "sqlite",
+    "databaseMapper": "sqlalchemy",
+    "versioningScheme": "none",
+    "currentVersion": "",
+    "urlPrefix": ""
+  }
+}
