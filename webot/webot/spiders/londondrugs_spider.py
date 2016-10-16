@@ -1,8 +1,9 @@
 import scrapy
 
 
-class AmazonSpider(scrapy.Spider):
-    name = "amazon"
+class LondonDrugsSpider(scrapy.Spider):
+    name = "londondrugs"
+
     search_term = ""
 
     def start_requests(self):
@@ -11,7 +12,7 @@ class AmazonSpider(scrapy.Spider):
         """
         self.search_term = getattr(self, 'search', None)
         if self.search_term is not None:
-            search_url = 'https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={0}&rh=i%3Aaps%2Ck%3A{0}'.format(
+            search_url = 'http://www.londondrugs.com/on/demandware.store/Sites-LondonDrugs-Site/default/Search-Show?q={0}%27&simplesearch=Go'.format(
                 self.search_term)
             yield scrapy.Request(search_url, self.parse)
         else:
@@ -26,11 +27,11 @@ class AmazonSpider(scrapy.Spider):
             yield scrapy.Request(response.headers['location'], callback=self.parse)
             return
 
-        for item in response.xpath('//div[@id="resultsCol"]//li//div[@class="a-row a-spacing-small"]//a/@href').extract():
+        for item in response.xpath('//p[@class="productimage"]//a/@href').extract():
             item_url = response.urljoin(item)
             yield scrapy.Request(item_url, callback=self.parse_item)
 
-        next_page = response.xpath('//a[@id="pagnNextLink"]/@href').extract_first()
+        next_page = response.xpath('//div[@class="pagination"]//a[@class="pagenext"]/@href').extract_first()
         if next_page is not None:
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
@@ -50,18 +51,14 @@ class AmazonSpider(scrapy.Spider):
             else:
                 return None
 
-        price_text = get_data('//span[@id="priceblock_ourprice"]/text()')
-        if price_text is None:
-            price_text = get_data('//div[@id="olp_feature_div"]//span[@class="a-color-price"]/text()')
-
-        price_text = price_text.split(' ')
+        price_text = get_data('//div[@itemprop="price"]/text()')
 
         yield {
             'search': self.search_term,
             'url': response.url,
             'source': self.name,
-            'product': get_data('//h1[@id="title"]/span/text()'),
-            'brand': get_data('//div[@id="brandByline_feature_div"]//a[@id="brand"]/text()'),
-            'currency': price_text[0],
-            'price': float(price_text[1])
+            'product': get_data('//h1[@class="productname"]/text()'),
+            'brand': get_data('//h2[@itemprop="brand"]/text()'),
+            'currency': 'CDN$',
+            'price': float(price_text[1:].replace(',',''))
         }

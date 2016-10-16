@@ -9,7 +9,10 @@ engine = create_engine('sqlite:///../web/database.db', echo=True)
 class Item(Base):
     __tablename__ = 'items'
 
-    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    id = Column(Integer, Sequence('item_id_seq'), primary_key=True)
+    search = Column(String)
+    url = Column(String)
+    source = Column(String)
     product = Column(String)
     brand = Column(String)
     currency = Column(String)
