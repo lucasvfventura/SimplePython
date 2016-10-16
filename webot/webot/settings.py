@@ -64,9 +64,9 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 2
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'webot.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'webot.pipelines.InsertDatabasePipeline': 300
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

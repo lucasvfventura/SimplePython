@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
+from . import engine
+from sqlalchemy.orm import sessionmaker
+from . import Item
 
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
+Session = sessionmaker(bind=engine)
 
 
-class WebotPipeline(object):
+class InsertDatabasePipeline(object):
+    session = Session()
+
     def process_item(self, item, spider):
+        item = Item(product=item['product'], brand=item['brand'], currency=item['currency'], price=item['price'])
+        self.session.add(item)
+        self.session.commit()
         return item

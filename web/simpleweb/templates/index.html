@@ -2,28 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Flask Test</title>
-    <!-- NVD3 dependecy -->
+    <title>SimplePython Dashboard</title>
+    <!-- Loading D3 -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <!-- NVD3 dependency -->
     <script src="https://d3js.org/d3.v3.min.js"></script>
 
     <!-- Loading NVD3 -->
     <script src="/static/nv.d3.min.js" language="JavaScript"></script>
     <link rel="stylesheet" type="text/css" href="/static/nv.d3.css"/>
+
+    <!-- Loading Dashboard -->
+    <script src="/static/chart.js" language="JavaScript"></script>
 </head>
 <body>
-<style>
-
-#chart svg {
-  height: 400px;
-}
-
-
-</style>
-
 
 <div id="chart">
-    <svg></svg>
+    <svg style="height: 400px;"></svg>
 </div>
-<script src="/static/chart.js" language="JavaScript"></script>
+
 </body>
 </html>

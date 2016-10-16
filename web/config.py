@@ -17,23 +17,17 @@ class BaseConfig(object):
 
 
 class ProductionConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'SIMPLEWEB_PRODUCTION_DATABASE_URI'
-    )
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///../database.db'
 
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'SIMPLEWEB_DEVELOPMENT_DATABASE_URI'
-    )
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///../database.db'
 
 
 class TestingConfig(BaseConfig):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'SIMPLEWEB_TESTING_DATABASE_URI'
-    )
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///../database.db'
 
 
 config = {

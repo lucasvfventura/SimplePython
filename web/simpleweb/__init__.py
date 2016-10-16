@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 # from python_kafka_logging.KafkaHandler import KafkaLoggingHandler
 # from logging import getLogger, FileHandler, Formatter
 #
-# from config import config
+from config import config
 import os
 
 environment = os.getenv('SIMPLEWEB_CONFIG', 'default')
@@ -13,6 +13,7 @@ db = SQLAlchemy()
 app = Flask(__name__)
 
 # app.config.from_object(config[environment])
+app.config.from_object(config['development'])
 
 # Configure logging
 # kafkaLog = getLogger('simpleweb')
@@ -31,3 +32,4 @@ app = Flask(__name__)
 db.init_app(app)
 
 import simpleweb.api
+import simpleweb.models

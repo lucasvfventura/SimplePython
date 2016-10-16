@@ -1,0 +1,18 @@
+from .. import db
+from sqlalchemy import Column, Integer, String, Float, Sequence
+
+
+class Item(db.Model):
+    __tablename__ = 'items'
+
+    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    product = Column(String)
+    brand = Column(String)
+    currency = Column(String)
+    price = Column(Float)
+
+    def __init__(self, product, brand, currency, price):
+        self.product = product
+        self.brand = brand
+        self.currency = currency
+        self.price = price

@@ -2,7 +2,7 @@ import scrapy
 
 
 class AmazonSpider(scrapy.Spider):
-    name = "amazon-notebook"
+    name = "amazon"
 
     def start_requests(self):
         """
@@ -37,7 +37,7 @@ class AmazonSpider(scrapy.Spider):
 
     def parse_item(self, response):
         """
-        Parse the page descring the item
+        Parse the page describing the item
         """
 
         def get_data(xpath):
