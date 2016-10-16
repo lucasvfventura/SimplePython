@@ -1,7 +1,7 @@
 from .. import app
 from ..models import Item
-from flask import render_template, jsonify
-
+from flask import render_template, jsonify, request
+from subprocess import Popen
 
 @app.route('/')
 def get():
@@ -17,4 +17,8 @@ def get_data():
             'color': '#ff7f0e'
         }]})
 
-
+@app.route('/crawl')
+def crawl():
+    search_term = request.args.get('search')
+    process = Popen(['cmd.bat', search_term])
+    return jsonify({'search_term': process.returncode})
