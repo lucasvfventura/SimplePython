@@ -5,7 +5,7 @@ This is a simple project writen in Python and JavaScript with the simple goal to
 Feel free to contact me at @lucasvfv.
 
 ## This application consists of:
-*   [Scrapy](https://scrapy.org/): web cralwer framework
+*   [Scrapy](https://scrapy.org/): web crawler framework
 *   [Flask](http://flask.pocoo.org/): back-end web framework
 *   [JQuery](https://jquery.com/) + [NVD3](http://nvd3.org/): front-end libraries to display the data
 *	[Jupyter Notrebooks](http://jupyter.org/) + [Pandas]( pandas.pydata.org): for data analysis
