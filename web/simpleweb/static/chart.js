@@ -1,14 +1,40 @@
 $( document ).ready( function(){
-    $.getJSON("data", function( data ) {
+    $("#search").click(function(){
+        $.get("crawl", {search: $("#search_term").val()}, function(){
+            alert("Crawling for: " + $("#search_term").val());
+            $("#search_term").val("");
+        });
+    });
+
+    $.getJSON("data", {bins: 10}, function( data ) {
+        nv.addGraph(function() {
+            var chart = nv.models.multiBarChart()
+                            .showControls(false)
+                            .x(function(d) {
+                                return d.label
+                            });
+
+            chart.yAxis.tickFormat(d3.format(',.0f'));
+
+            d3.select('#chart1 svg')
+                .datum(data.histogram)
+                .transition().duration(500)
+                .call(chart);
+
+            nv.utils.windowResize(chart.update);
+
+            return chart;
+        });
+
         nv.addGraph(function() {
             var chart = nv.models.lineChart().useInteractiveGuideline(true);
 
             chart.xAxis
-                .axisLabel('Time (ms)')
+                .axisLabel('Index')
                 .tickFormat(d3.format(',r'));
 
             chart.yAxis
-                .axisLabel('Voltage (v)')
+                .axisLabel('Prices (CDN$)')
                 .tickFormat(d3.format('.02f'));
 
             d3.select('#chart svg')
@@ -21,7 +47,6 @@ $( document ).ready( function(){
             return chart;
         });
     });
-
 });
 
 
