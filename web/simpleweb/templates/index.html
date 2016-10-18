@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,36 +31,49 @@
     <div class="container-fluid row">
         <div class="col-xs-6 col-md-4">
             <div class="panel panel-default">
-                <div class="panel-heading">Crawler</div>
+                <div class="panel-heading">Web bot</div>
                 <div class="panel-body">
                     <form class="form-inline">
                         <div class="form-group">
                             <input type="text" class="form-control input-sm" id="search_term" placeholder="Search term">
                         </div>
                         <button type="button" class="btn btn-default btn-sm" id="search">Search</button>
+                        <span id="helpBlock" class="help-block">
+                            <small>
+                                Type a search term and hit the search button to tell our web bot to search at Amazon and London Drugs for your term.
+                                Refresh the page after 2 minutes to show some results.
+                            </small>
+                        </span>
                     </form>
                 </div>
                 <div class="panel-heading">Dashboard</div>
                 <div class="panel-body">
                     <form class="form">
                         <div class="form-group">
-                            Terms:
-                            {% for term in model['terms'] %}
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" value="{{term}}" checked>
-                                        {{term}}
-                                    </label>
-                                </div>
-                            {% endfor %}
+                            Terms collected:
+                            <ul>
+                                {% for term in model['terms'] %}
+                                 <li>{{term.capitalize()}}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-md-8">
-            <div id="chart1"><svg style="height: 400px;"></svg></div>
-            <div id="chart"><svg style="height: 400px;"></svg></div>
+            <div id="chart1">
+                <div class="container_fluid text-center">
+                    <h4><strong>Item price histogram per search term</strong></h4>
+                </div>
+                <svg style="height: 400px;"></svg>
+            </div>
+            <div id="chart">
+                <div class="container_fluid text-center">
+                    <h4><strong>Item price in order in which were collected per search term</strong></h4>
+                </div>
+                <svg style="height: 400px;"></svg>
+            </div>
         </div>
     </div>
 </div>

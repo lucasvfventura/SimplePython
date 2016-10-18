@@ -15,7 +15,7 @@ Feel free to contact me at @lucasvfv.
 
 #### Installing dependencies:
 *   *conda install scrapy*
-*   *conda install Flask*
+*   *conda install flask*
 
 ## Running
 *   *TO BE DONE*

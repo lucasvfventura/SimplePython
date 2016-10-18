@@ -28,12 +28,11 @@ def get_data():
 
     items = []
     for single_item in Item.query.all():
-        series = {}
         for s in items:
             if s['key'] == single_item.search.capitalize():
                 series = s
                 break
-        if series == {}:
+        else:
             series = {'key': single_item.search.capitalize(), 'values': []}
             items.append(series)
 
@@ -41,12 +40,11 @@ def get_data():
 
     hist = []
     for term in db.session.execute(hist_sql).fetchall():
-        series = {}
         for s in hist:
             if s['key'] == term[0].capitalize():
                 series = s
                 break
-        if series == {}:
+        else:
             series = {'key': term[0].capitalize(), 'values': []}
             hist.append(series)
 

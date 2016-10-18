@@ -14,7 +14,8 @@ $( document ).ready( function(){
                                 return d.label
                             });
 
-            chart.yAxis.tickFormat(d3.format(',.0f'));
+            chart.xAxis.axisLabel('10 Price bins');
+            chart.yAxis.axisLabel('Items quantity in each price(CDN$) bin').tickFormat(d3.format(',.0f'));
 
             d3.select('#chart1 svg')
                 .datum(data.histogram)
@@ -30,12 +31,12 @@ $( document ).ready( function(){
             var chart = nv.models.lineChart().useInteractiveGuideline(true);
 
             chart.xAxis
-                .axisLabel('Index')
+                .axisLabel('Collect order per term')
                 .tickFormat(d3.format(',r'));
 
             chart.yAxis
                 .axisLabel('Prices (CDN$)')
-                .tickFormat(d3.format('.02f'));
+                .tickFormat(d3.format('.0f'));
 
             d3.select('#chart svg')
                 .datum(data.data)

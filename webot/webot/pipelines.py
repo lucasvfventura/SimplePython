@@ -10,7 +10,6 @@ class InsertDatabasePipeline(object):
     session = Session()
 
     def process_item(self, item, spider):
-        print(item)
         item = Item(search=item['search'], url=item['url'], source=item['source'],
                     product=item['product'], brand=item['brand'],
                     currency=item['currency'], price=item['price'])

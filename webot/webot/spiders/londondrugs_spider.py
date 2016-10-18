@@ -4,13 +4,14 @@ import scrapy
 class LondonDrugsSpider(scrapy.Spider):
     name = "londondrugs"
 
-    search_term = ""
+    def __init__(self, search_term=None, *args, **kwargs):
+        super(LondonDrugsSpider, self).__init__(*args, **kwargs)
+        self.search_term = search_term
 
     def start_requests(self):
         """
         Setup initial url request
         """
-        self.search_term = getattr(self, 'search', None)
         if self.search_term is not None:
             search_url = 'http://www.londondrugs.com/on/demandware.store/Sites-LondonDrugs-Site/default/Search-Show?q={0}%27&simplesearch=Go'.format(
                 self.search_term)

@@ -3,26 +3,27 @@ import scrapy
 
 class AmazonSpider(scrapy.Spider):
     name = "amazon"
-    search_term = ""
+
+    def __init__(self, search_term=None, *args, **kwargs):
+        super(AmazonSpider, self).__init__(*args, **kwargs)
+        self._search_term = search_term
+
 
     def start_requests(self):
         """
         Setup initial url request
         """
-        self.search_term = getattr(self, 'search', None)
-        if self.search_term is not None:
-            search_url = 'https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={0}&rh=i%3Aaps%2Ck%3A{0}'.format(
-                self.search_term)
+        if self._search_term is not None:
+            search_url = 'https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={0}&rh=i%3Aaps%2Ck%3A{0}'.format(self._search_term)
             yield scrapy.Request(search_url, self.parse)
         else:
             print("Please specify the search term with the parameter search, i.e, -a search=search_term")
-            return
 
     def parse(self, response: scrapy.http.TextResponse):
         """
         Parse the search page. Looks for item specific page and the next page in the search results
         """
-        if response.status in [301, 302, 503] and 'Location' in response.headers:
+        if response.status in [301, 302] and 'Location' in response.headers:
             yield scrapy.Request(response.headers['location'], callback=self.parse)
             return
 
@@ -39,7 +40,6 @@ class AmazonSpider(scrapy.Spider):
         """
         Parse the page describing the item
         """
-
         def get_data(xpath):
             """
             Return the strip text of the given xpath
@@ -57,7 +57,7 @@ class AmazonSpider(scrapy.Spider):
         price_text = price_text.split(' ')
 
         yield {
-            'search': self.search_term,
+            'search': self._search_term,
             'url': response.url,
             'source': self.name,
             'product': get_data('//h1[@id="title"]/span/text()'),
